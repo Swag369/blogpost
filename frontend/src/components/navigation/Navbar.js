@@ -5,7 +5,7 @@ import icon from '../../logo512.png'
 export default function Navbar({setArticleID}) {
 
     const helper = a => {
-        console.log("set "+a)
+        // console.log("set "+a)
         setArticleID(a)
     }
 

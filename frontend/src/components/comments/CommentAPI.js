@@ -13,7 +13,7 @@ export async function postComment({parentID, writer, content, article_id}) {
         parentID = -1 // flag was too redundant
     }
 
-    console.log(JSON.stringify({"writer": writer, "content": content, "parent_reply_id": parentID, "article_id": article_id}))
+    // console.log(JSON.stringify({"writer": writer, "content": content, "parent_reply_id": parentID, "article_id": article_id}))
 
     try{
         return await fetch(api_url + 'articles/' + article_id + "/new_reply", {
@@ -34,7 +34,7 @@ export async function postComment({parentID, writer, content, article_id}) {
 
 export async function getComments(article_id) {
 
-    console.log("fetching" + article_id)
+    // console.log("fetching" + article_id)
 
     let ret = await fetch(api_url + 'articles/' + article_id + "/replies")
 
