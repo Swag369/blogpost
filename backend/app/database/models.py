@@ -26,8 +26,8 @@ class Replies(Base):
     __tablename__ = "replies"
 
     insertion_number = Column(Integer, autoincrement=True, unique=True, nullable=False, primary_key=True)
-    writer = Column(String, nullable=True)
-    content = Column(String, nullable=True)
+    writer = Column(String, nullable=False)
+    content = Column(String, nullable=False)
     article_id = Column(Integer, ForeignKey("articles.id"), nullable=False)
     parent_reply_id = Column(Integer, ForeignKey("replies.insertion_number"), nullable=True)
 

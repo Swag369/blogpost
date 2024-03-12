@@ -6,7 +6,7 @@ from typing import Union, List
 class PostReply(BaseModel):
     writer: Union[str, None] = None
     content: str
-    parent_reply_id: Union[int, None] = None
+    parent_reply_id: int
 
 # potential for updatereply and deletereply
 
