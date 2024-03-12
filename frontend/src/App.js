@@ -4,7 +4,8 @@ import Page from './components/Page';
 
 function App() {
   return (
-    <div className="App h-screen">
+    
+    <div className="App w-full h-screen">
       <Page />
     </div>
   );

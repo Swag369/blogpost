@@ -4,7 +4,7 @@ import { postComment } from './CommentAPI';
 
 // nested comments with reply functionality
 
-export default function NestedComment({comment, setNewCommentDB}) {
+export default function NestedComment({comment, setNewCommentDB, articleID}) {
 
     const [isCommenting, setIsCommenting] = useState(false)
 
@@ -34,7 +34,7 @@ export default function NestedComment({comment, setNewCommentDB}) {
             return
         }
 
-        postComment({parentID: parentID, writer: writer, content: commentDraft})
+        postComment({parentID: parentID, writer: writer, content: commentDraft, article_id: articleID})
         setNewCommentDB(true)
         setCommentDraft("")
         setWriter("")
@@ -43,29 +43,31 @@ export default function NestedComment({comment, setNewCommentDB}) {
 
 
     return (
-        <div className='flex flex-col gap-2 my-2 border border-slate-200 pl-20 w-96'>
+        <div className='w-full flex flex-col gap-2 my-2 border-l border-t border-gray-200 p-2 pl-10 rounded-md'>
 
             {/* Comment Block */}
-            <span>{comment.writer}</span>
-            <span>{comment.content}</span>
+            <span className='w-full flex flex-row justify-between my-3'>
+                <div> {comment.writer + ": " + comment.content} </div>
+                {!isCommenting?
+                    <button className="text-blue-500 w-1/2" onClick={() => (setIsCommenting(!isCommenting))}>Reply</button> 
+                    :
+                    <button className="text-blue-500 w-1/2" onClick={() => (setIsCommenting(!isCommenting))}>Cancel</button>}
+                </span>
  
             {/* Comment Reply Block */}
-            <div>
                 {isCommenting?
-                    <div className='flex flex-col justify-center items-center'>
-                        <button className="text-primary w-1/2" onClick={() => (setIsCommenting(!isCommenting))}>Cancel</button>
+                    <div className='flex flex-row gap-3'>
                         <div>
-                            <textarea className="w-1/2 border border-gray-200 p-1" placeholder="Your Name" value = {writer} onChange={(e) => setWriter(e.target.value)}/>
-                            <textarea className="w-full border border-gray-200 p-1" placeholder="Write your reply" value = {commentDraft} onChange={(e) => setCommentDraft(e.target.value)}/>
-                            <button className="w-1/2 items-center bg-primary text-white p-1" onClick={() => postNestedReply(comment.id)}>Post</button>
+                            <input className="w-full border border-gray-200 p-2 rounded-md" placeholder="Your Name" value={writer} onChange={(e) => setWriter(e.target.value)}/>
+                            <textarea className="w-full border border-gray-200 p-2 rounded-md" placeholder="Write your reply" value = {commentDraft} onChange={(e) => setCommentDraft(e.target.value)}/>
+                            <button className="w-full bg-blue-500 text-white p-2 rounded-md hover:bg-blue-600" onClick={() => postNestedReply(comment.id)}>Post</button>
                         </div>
                     </div>
                     
                     :
                     
-                    <button className="text-primary w-1/2" onClick={() => (setIsCommenting(!isCommenting))}>Reply</button>
+                    <div></div> 
                 }
-            </div>
 
             {/* Nested Comments */}
             {comment.children.map((child) => (<NestedComment key = {child.id} comment = {child} setNewCommentDB = {setNewCommentDB} />))}

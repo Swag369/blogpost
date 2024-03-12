@@ -10,12 +10,16 @@ def get_article(db: Session, id: int):
     item = db.query(models.Articles).filter(models.Articles.id == id).first()
 
     if not item:
-        raise HTTPException(status_code=404, detail="Article not found")
+
+        return GetArticle(
+        content="article with that id doesn't exist",
+        author="Not Found",
+        )
 
     return GetArticle(
         content=item.content,
         author=item.author,
-        # replies=get_replies(db, id)  loading seperately because of frontend layout simplicity
+        # replies=get_replies(db, id)  loading seperately because of frontend layout
     )
 
 
@@ -46,8 +50,6 @@ def get_replies(db: Session, article_id: int):
     for reply in parent_replies:
         pydantic_formatted_replies.append(convert_orm_to_pydantic(reply).model_dump())
 
-    print(pydantic_formatted_replies)
-
     return pydantic_formatted_replies
 
 
@@ -59,7 +61,12 @@ def get_replies(db: Session, article_id: int):
 # ! or at least deleting orphans periodically (they'd not get rendered, but be a waste of space)
 
 def add_reply(db: Session, user: PostReply, article_id: int):
-    new_reply = models.Replies(**user.model_dump(), article_id=article_id)  # le struggles of le model dump and 80/20
+    
+    #if article not found
+    if not db.query(models.Articles).filter(models.Articles.id == article_id).first():
+        raise HTTPException(status_code=404, detail="Article not found")
+
+    new_reply = models.Replies(**user.model_dump(), article_id=article_id)  # ! le struggles of le model dump and 80/20
     if new_reply.parent_reply_id <= 0: new_reply.parent_reply_id = None
     db.add(new_reply)
     db.commit()

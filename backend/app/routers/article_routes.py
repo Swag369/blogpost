@@ -1,8 +1,9 @@
 from sqlalchemy.orm import Session
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, Security
 from api_models.ReplyModels import PostReply
 from database.database import get_db
 from database import article_crud
+from .verification import check_api_key
 
 
 articles = APIRouter(prefix="/articles")
@@ -21,7 +22,7 @@ def get_article(article_id: int, db: Session = Depends(get_db)):
 
 
 @articles.post("/{article_id}/new_reply")
-def post_reply(article_id: int, reply: PostReply, db: Session = Depends(get_db)):
+def post_reply(article_id: int, reply: PostReply, db: Session = Depends(get_db), authorized: bool = Depends(check_api_key)):
 
     print(reply)
 

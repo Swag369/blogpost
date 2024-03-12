@@ -5,7 +5,7 @@ import { postComment, getComments } from './CommentAPI';
 
 
 
-export default function CommentSection() {
+export default function CommentSection({articleID}) {
 
     const [newCommentDB, setNewCommentDB] = useState(false)
 
@@ -18,7 +18,7 @@ export default function CommentSection() {
     // get reply data
     useEffect(() => {
         let ignore = false;
-        getComments().then(result => {
+        getComments(articleID).then(result => {
             if (ignore) {} //pass
             setComments(result)
         })
@@ -26,7 +26,7 @@ export default function CommentSection() {
         return () => {
             ignore = true;
         };
-    }, [newCommentDB])
+    }, [newCommentDB, articleID])
 
 
     //validate and either post or alert
@@ -51,7 +51,7 @@ export default function CommentSection() {
             return
         }
     
-        postComment({parentID: -1, writer: writer, content: newComment})
+        postComment({parentID: -1, writer: writer, content: newComment, article_id: articleID})
         // negative parent ID was a cleanliness choice
         
         setNewCommentDB(true)
@@ -61,28 +61,28 @@ export default function CommentSection() {
     }
 
     return (
-    <>
+    <div className='flex flex-col items-start px-3 pt-5 w-10/12 border-t'>
 
        {/* Existing Comments */}
 
-       <div className='flex flex-col items-start px-3'>
-            {comments.map((comment) => (<NestedComment key = {comment.id} comment = {comment} setNewCommentDB = {setNewCommentDB} />))}
+       <div className='flex w-full flex-col items-start px-3'>
+            {comments.map((comment) => (<NestedComment articleID = {articleID} key = {comment.id} comment = {comment} setNewCommentDB = {setNewCommentDB} />))}
         </div>
 
 
         {/* New Comment Input */}
 
-        <div className="flex flex-col gap-3 items-center justify-center mt-10">
-            <textarea id = "newCommentWriter" value = {writer} className="w-1/4 border border-gray-200 p-1" placeholder="Your Name" onChange={(e) => setWriter(e.target.value)}/>
-            <textarea id = "newComment" value = {newComment} className="w-3/4 border border-gray-200 p-1" placeholder="Write your reply" onChange={(e) => setNewComment(e.target.value)}/>
+        <div className="flex flex-col gap-3 items-center justify-center mt-10 w-full">
+            <input id = "newCommentWriter" value = {writer} className="w-3/4 border border-gray-200 p-2 rounded-md" placeholder="Your Name" onChange={(e) => setWriter(e.target.value)}/>
+            <textarea id = "newComment" value = {newComment} className="w-3/4 border border-gray-200 p-2 rounded-md" placeholder="Write your reply" onChange={(e) => setNewComment(e.target.value)}/>
             <button
-                className="w-1/2 items-center bg-primary text-white p-1"
+                className="w-3/4 bg-blue-500 text-white p-2 rounded-md hover:bg-blue-600"
                 onClick={() => postTopLevelReply()}    
             >
                 Post
             </button>
         </div>
     
-    </ >
+    </ div>
     )
 }
