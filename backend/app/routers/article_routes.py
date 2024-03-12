@@ -1,5 +1,5 @@
 from sqlalchemy.orm import Session
-from fastapi import APIRouter, Depends, Security
+from fastapi import APIRouter, Depends
 from api_models.ReplyModels import PostReply
 from database.database import get_db
 from database import article_crud
@@ -16,7 +16,7 @@ def get_article(article_id: int, db: Session = Depends(get_db)):
 
 
 @articles.get("/{article_id}/replies")
-def get_article(article_id: int, db: Session = Depends(get_db)):
+def get_replies(article_id: int, db: Session = Depends(get_db)):
 
     return article_crud.get_replies(db, article_id)
 

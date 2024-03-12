@@ -5,13 +5,12 @@ const api_key = "legit_hashed_stored_in_env_checked_against_in_DB_api_key" //add
 
 
 
-// #I'm calling DB because
 export async function postComment({parentID, writer, content, article_id}) {
 
 
     // if top level comment, set parentID null
     if (parentID <=0 ) {
-        parentID = -1
+        parentID = -1 // flag was too redundant
     }
 
     console.log(JSON.stringify({"writer": writer, "content": content, "parent_reply_id": parentID}))

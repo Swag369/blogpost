@@ -11,7 +11,7 @@ export default function NestedComment({comment, setNewCommentDB, articleID}) {
     const [writer, setWriter] = useState("")
     const [commentDraft, setCommentDraft] = useState("")
 
-    //validate and either post or alert
+    //validate input and either post or alert
     const postNestedReply = (parentID) => {
 
         // a hack for input validation in this scenario
