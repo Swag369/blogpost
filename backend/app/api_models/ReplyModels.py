@@ -13,6 +13,7 @@ class PostReply(BaseModel):
 
 class GetReplies(BaseModel):
 
+    id: int
     writer: Union[str, None] = None
     content: str
     children: List[GetReplies] = None

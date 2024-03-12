@@ -33,7 +33,10 @@ class Replies(Base):
 
     children = relationship("Replies")
 
-    # STORY TIME
+    # ! STORY TIME
     # talk about lazy joining choice, and how I chose to "BFS" it in the crud area, and talk about how I was unsure of what to do
     # also how this could TECHNICALLY infinite loop if I had a cycle in the replies, but I'm not sure if that's a problem, because it's technically not possible?
     # esp cuz joindepth wasn't a good approach, and messing too much with sqlalchemy was out of my grasp in my time frame
+
+    # ! part 2, talk about how this ended up being the wrong choice because it encouraged top level fetching from api instead of
+    # ! nested fetching which removed some elegance from front end design

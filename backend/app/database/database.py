@@ -13,8 +13,8 @@ SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 Base = declarative_base()
 
 
-# talk about how I've heard of connection pooling but don't know how it's
-# implemented, and this is FastAPI's default reccomendation in the docs
+# ! talk about how I've heard of connection pooling but don't know how it's
+# ! implemented, and this is FastAPI's default reccomendation in the docs
 
 def get_db() -> Session:
     db = SessionLocal()

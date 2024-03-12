@@ -14,7 +14,19 @@ def get_article(article_id: int, db: Session = Depends(get_db)):
     return article_crud.get_article(db, article_id)
 
 
+@articles.get("/{article_id}/replies")
+def get_article(article_id: int, db: Session = Depends(get_db)):
+
+    return article_crud.get_replies(db, article_id)
+
+
 @articles.post("/{article_id}/new_reply")
 def post_reply(article_id: int, reply: PostReply, db: Session = Depends(get_db)):
 
-    return article_crud.add_reply(db, reply, article_id)
+    print(reply)
+
+    ret = article_crud.add_reply(db, reply, article_id)
+
+    print(ret)
+
+    return ret
