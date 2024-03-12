@@ -70,7 +70,7 @@ export default function NestedComment({comment, setNewCommentDB, articleID}) {
                 }
 
             {/* Nested Comments */}
-            {comment.children.map((child) => (<NestedComment key = {child.id} comment = {child} setNewCommentDB = {setNewCommentDB} />))}
+            {comment.children.map((child) => (<NestedComment articleID = {articleID} key = {child.id} comment = {child} setNewCommentDB = {setNewCommentDB} />))}
 
         </div>
     )
