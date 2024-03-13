@@ -30,7 +30,7 @@ export default function CommentSection({articleID}) {
 
 
     //validate and either post or alert
-    const postTopLevelReply = () => {
+    const postTopLevelReply = async () => {
 
         // a hack for input validation in this scenario
         if (newComment.length < 5 || writer === "") {
@@ -51,7 +51,7 @@ export default function CommentSection({articleID}) {
             return
         }
     
-        postComment({parentID: -1, writer: writer, content: newComment, article_id: articleID})
+        await postComment({parentID: -1, writer: writer, content: newComment, article_id: articleID})
         // negative parent ID was a cleanliness choice
         
         setNewCommentDB(true)
@@ -77,7 +77,7 @@ export default function CommentSection({articleID}) {
             <textarea id = "newComment" value = {newComment} className="w-3/4 border border-gray-200 p-2 rounded-md" placeholder="Write your reply" onChange={(e) => setNewComment(e.target.value)}/>
             <button
                 className="w-3/4 bg-blue-500 text-white p-2 rounded-md hover:bg-blue-600"
-                onClick={() => postTopLevelReply()}    
+                onClick={async () => await postTopLevelReply()}    
             >
                 Post
             </button>

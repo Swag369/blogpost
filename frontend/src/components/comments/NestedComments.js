@@ -12,7 +12,7 @@ export default function NestedComment({comment, setNewCommentDB, articleID}) {
     const [commentDraft, setCommentDraft] = useState("")
 
     //validate input and either post or alert
-    const postNestedReply = (parentID) => {
+    const postNestedReply = async (parentID) => {
 
         // a hack for input validation in this scenario
         if (commentDraft.length < 5 || writer === "") {
@@ -34,7 +34,7 @@ export default function NestedComment({comment, setNewCommentDB, articleID}) {
             return
         }
 
-        postComment({parentID: parentID, writer: writer, content: commentDraft, article_id: articleID})
+        await postComment({parentID: parentID, writer: writer, content: commentDraft, article_id: articleID})
         setNewCommentDB(true)
         setCommentDraft("")
         setWriter("")
@@ -60,7 +60,7 @@ export default function NestedComment({comment, setNewCommentDB, articleID}) {
                         <div>
                             <input className="w-full border border-gray-200 p-2 rounded-md" placeholder="Your Name" value={writer} onChange={(e) => setWriter(e.target.value)}/>
                             <textarea className="w-full border border-gray-200 p-2 rounded-md" placeholder="Write your reply" value = {commentDraft} onChange={(e) => setCommentDraft(e.target.value)}/>
-                            <button className="w-full bg-blue-500 text-white p-2 rounded-md hover:bg-blue-600" onClick={() => postNestedReply(comment.id)}>Post</button>
+                            <button className="w-full bg-blue-500 text-white p-2 rounded-md hover:bg-blue-600" onClick={async () => await postNestedReply(comment.id)}>Post</button>
                         </div>
                     </div>
                     

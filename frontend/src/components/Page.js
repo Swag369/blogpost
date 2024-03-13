@@ -35,7 +35,7 @@ export default function Page() {
                     <span className="text-slate-300 flex flex-col items-start mb-7">{"Posted on: December 22, 2016"}</span>
                     <Markdown articleID = {articleID} className="prose flex flex-col items-start mb-7 border-l pl-6" remarkPlugins={[remarkGfm]}>{markdownText}</Markdown>
                 </div>
-                <div className="hidden md:visible w-1/12 bg-black h-screen text-white flex flex-col justify-around"><span>advert</span> <span>section</span></div>
+                <div className="w-1/12 bg-black h-screen text-white flex flex-col justify-around"><span>advert</span> <span>section</span></div>
             </div>
             <big className="w-10/12 flex flex-row justify-start items-start py-10">Comments</big>
             <CommentSection articleID = {articleID} />      
